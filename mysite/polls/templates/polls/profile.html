@@ -1,0 +1,23 @@
+{% extends 'polls/layout/base.html' %}
+
+{% block content %}
+    <h2>Пройденные опросы</h2>
+    {% if my_question_results %}
+        <div class="row mt-3">
+        {% for q in my_question_results %}
+            <div class="col-12 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ q.question.question_text }}</h4>
+                        <p class="card-description">{{ q.question.description }}</p>
+                        <p><i><b>Дата публикации:</b> {{ q.question.pub_date }}</i></p>
+                        <a href="{%url 'polls:results' q.question.id %}" class="btn btn-primary">Посмотреть результаты</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>Вы еще не прошли не одного опроса.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'polls/layout/base.html' %}
+
+{% block content %}
+    <div class="wrap pt-2 pb-2">
+        <h2>Опрос: {{ question.question_text }}</h2>
+        <p><i><b>Дата публикации: </b>{{ question.pub_date }}</i></p>
+        <p>{{ question.description }}</p>
+    </div>
+    <div class="wrap">
+        {% if user.is_authenticated %}
+            <h5>Варианты ответа:</h5>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <form action="{% url 'polls:vote' question.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <select name="choice" class="form-control">
+                                {% for choice in question.choice_set.all %}
+                                <option value="{{ choice.id }}">{{ choice.choice_text }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-success">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <h5>Вы не авторизированны</h5>
+            <p>Опросы могут проходить только авторизированные пользователи. <a href="{% url 'polls:login' %}">Войти</a></p>
+        {% endif %}
+    </div>
+{% endblock %}

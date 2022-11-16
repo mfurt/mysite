@@ -1,0 +1,47 @@
+{% load static %}
+{% load bootstrap4 %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='slim' %}
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+<div class="page container-fluid">
+    <div class="header p-3 bg-white border-bottom box-shadow">
+        <div class="container d-flex align-items-center justify-content-between">
+            <h5><a href="{% url 'polls:index' %}">Опросы</a></h5>
+            <div class="navbar">
+                <a href="{% url 'polls:index' %}" class="pl-3 pr-3 nav-item">Главная</a>
+                {% if not user.is_authenticated %}
+                <a href="{% url 'polls:login' %}" class="pl-3 pr-3 nav-item">Войти</a>
+                {% else %}
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">{{ user }}</a>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'polls:profile' %}" class="dropdown-item">Пройденные опросы</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'polls:logout' %}" class="dropdown-item">Выйти</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="container mt-5">
+            {% bootstrap_messages %}
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+</div>
+</body>
+</html>

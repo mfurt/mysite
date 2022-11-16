@@ -1,0 +1,33 @@
+{% extends 'polls/layout/base.html' %}
+
+{% block content %}
+    <h2>Авторизация</h2>
+    <div class="row w-100">
+        <div class="col-12 col-md-6">
+            <form method="post">
+                {% csrf_token %}
+                {% if not form.username.errors and not form.password.errors %}
+                    {% for error in form.errors.values %}
+                        <h6 style="color: #e22929">{{ error }}</h6>
+                    {% endfor %}
+                {% endif %}
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input type="text" class="form-control {% if form.username.errors %} is-invalid {% endif %}" name="{{ form.username.name }}" value="{% if form.username.value %}{{ form.username.value }}{% else %}{{ '' }}{% endif %}">
+                    {% for error in form.username.errors %}
+                        <small class="invalid-feedback">{{ error }}</small>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" class="form-control {% if form.password.errors %} is-invalid {% endif %}" name="{{ form.password.name }}" value="{% if form.password.value %}{{ form.password.value }}{% else %}{{ '' }}{% endif %}">
+                    {% for error in form.password.errors %}
+                        <small class="invalid-feedback">{{ error }}</small>
+                    {% endfor %}
+                </div>
+                <button class="btn btn-primary">Войти</button>
+                <p>Нет аккаунта? <a href="{% url 'polls:register' %}">Зарегистрироваться</a></p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'polls/layout/base.html' %}
+
+{% block content %}
+    <div class="wrap pt-2 pb-2">
+        <h2>Опрос: {{ question.question_text }}</h2>
+        <p><i><b>Дата публикации: </b>{{ question.pub_date }}</i></p>
+        <p>{{ question.description }}</p>
+    </div>
+    <div class="wrap">
+        {% if user.is_authenticated %}
+            <h5>Результат голосования</h5>
+            {% for percent in question.percents %}
+                <div class="pt-3">
+                    <p>{{ percent.choice.choice_text }} - ({{ percent.choice.vote_set.count }})</p>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: {{ percent.value }}%" role="progressbar" aria-valuenow="{{ percent.value }}" aria-valuemin="0" aria-valuemax="100">{{ percent.value }}%</div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
